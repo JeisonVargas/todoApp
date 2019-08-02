@@ -1,0 +1,13 @@
+.Column__Container {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+}
+
+.Column__Title {
+  padding: 8px;
+}
+
+.Column__Item {
+  padding: 8px;
+}
