@@ -23,6 +23,8 @@ class TreeLoad extends React.Component {
     columnOrder: ['column-1'],
   }
 
+  //Prueba de commit desde otro pc
+
   // onDragStart = start => {
   //   const { destination } = start;
   //   console.log(start.draggableId);
