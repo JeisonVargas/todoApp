@@ -10,9 +10,9 @@ class Item extends React.Component {
         {(provided, snapshot) => (
           <div className={'Item__Container'}
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
             ref={provided.innerRef}
           >
+						<div className="Item__Handle" {...provided.dragHandleProps} ></div>
             {this.props.item.content}
           </div>
         )}

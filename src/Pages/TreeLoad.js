@@ -23,15 +23,26 @@ class TreeLoad extends React.Component {
     columnOrder: ['column-1'],
   }
 
-  onDragStart = start => {
-    const { destination } = start;
-    console.log(start.draggableId);
-    // Object.key(this.state.items) = 'blue';
-    document.body.style.color = 'orange';
-  };
+  // onDragStart = start => {
+  //   const { destination } = start;
+  //   console.log(start.draggableId);
+  //   // Object.key(this.state.items) = 'blue';
+  //   document.body.style.color = 'orange';
+	// 	document.body.style.transition = 'background-color 0.2s ease'
+  // };
+
+	// onDragUpdate = update => {
+	// 	const { destination } = update;
+	// 	const opacity = destination
+	// 		? destination.index / Object.keys(this.state.items).length
+	// 		: 0;
+	// 	document.body.style.backgroundColor = `rgba(153, 141, 217, ${opacity})`;
+	// }
 
   onDragEnd = result => {
-    document.body.style.color = 'inherit';
+    // document.body.style.color = 'inherit';
+		// document.body.style.backgroundColor = 'inherit';
+
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -68,7 +79,7 @@ class TreeLoad extends React.Component {
 
   render() {
     return (
-      <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+      <DragDropContext onDragStart={this.onDragStart} onDragUpdate={this.onDragUpdate} onDragEnd={this.onDragEnd}>
         {this.state.columnOrder.map((columnId) => {
           const column = this.state.columns[columnId];
           const items = column.itemIds.map(itemId => this.state.items[itemId]);
