@@ -3,7 +3,7 @@ import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from '../components/Column';
 
-// import './styles/TreeLoad.css'
+import './styles/TreeLoad.css'
 
 class TreeLoad extends React.Component {
   state = {
@@ -16,14 +16,29 @@ class TreeLoad extends React.Component {
     columns: {
       'column-1': {
         id: 'column-1',
-        title: 'Posiciones',
+        title: 'Area Inicial',
         itemIds: ['task-1', 'task-2', 'task-3', 'task-4'],
       },
+      'column-2': {
+        id: 'column-2',
+        title: 'Posiciones',
+        itemIds: [],
+      },
+      'column-3': {
+        id: 'column-3',
+        title: 'Intereses',
+        itemIds: [],
+      },
+      'column-4': {
+        id: 'column-4',
+        title: 'Alternativas a la no negociación',
+        itemIds: [],
+      },
     },
-    columnOrder: ['column-1'],
+    columnOrder: ['column-2', 'column-3', 'column-4'],
   }
 
-  //Prueba de commit desde otro pc
+
 
   // onDragStart = start => {
   //   const { destination } = start;
@@ -41,9 +56,20 @@ class TreeLoad extends React.Component {
 	// 	document.body.style.backgroundColor = `rgba(153, 141, 217, ${opacity})`;
 	// }
 
+  // onDragStart = start => {
+  //   const homeIndex = this.state.columnOrder.indexOf(start.source.droppableId);
+  //
+  //   this.setState({
+  //     homeIndex,
+  //   })
+  // }
+
   onDragEnd = result => {
     // document.body.style.color = 'inherit';
 		// document.body.style.backgroundColor = 'inherit';
+    // this.setState({
+    //   homeIndex: null,
+    // })
 
     const { destination, source, draggableId } = result;
 
@@ -58,36 +84,86 @@ class TreeLoad extends React.Component {
       return;
     }
 
-    const column = this.state.columns[source.droppableId];
-    const newItemIds = Array.from(column.itemIds);
-    newItemIds.splice(source.index, 1);
-    newItemIds.splice(destination.index, 0, draggableId);
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
 
-    const newColumn = {
-      ...column,
-      itemIds: newItemIds,
+    if (start === finish) {
+      const newItemIds = Array.from(start.itemIds);
+      newItemIds.splice(source.index, 1);
+      newItemIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...start,
+        itemIds: newItemIds,
+      }
+
+      const newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn
+        }
+      }
+
+      this.setState(newState);
+      return;
     }
+
+    const startItemIds = Array.from(start.itemIds);
+    startItemIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      itemIds: startItemIds,
+    };
+
+    const finishItemIds = Array.from(finish.itemIds);
+    finishItemIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      itemIds: finishItemIds,
+    };
 
     const newState = {
       ...this.state,
       columns: {
         ...this.state.columns,
-        [newColumn.id]: newColumn
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
       }
     }
 
     this.setState(newState);
+
   }
 
   render() {
     return (
-      <DragDropContext onDragStart={this.onDragStart} onDragUpdate={this.onDragUpdate} onDragEnd={this.onDragEnd}>
-        {this.state.columnOrder.map((columnId) => {
-          const column = this.state.columns[columnId];
-          const items = column.itemIds.map(itemId => this.state.items[itemId]);
+      <DragDropContext
+        onDragStart={this.onDragStart}
+        onDragUpdate={this.onDragUpdate}
+        onDragEnd={this.onDragEnd}
+      >
+        <div className="TreeLoad__Container">
+          <Column
+            key={this.state.columns['column-1'].id}
+            column={this.state.columns['column-1']}
+            items={this.state.columns['column-1'].itemIds.map(itemId => this.state.items[itemId])}
+            isDropDisabled={true}
+          />
+        </div>
+        <div className="TreeLoad__Container">
+          {this.state.columnOrder.map((columnId, index) => {
+            const column = this.state.columns[columnId];
+            const items = column.itemIds.map(itemId => this.state.items[itemId]);
 
-          return <Column key={column.id} column={column} items={items} />;
-        })}
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                items={items}
+              />);
+          })}
+        </div>
       </DragDropContext>
     )
   }

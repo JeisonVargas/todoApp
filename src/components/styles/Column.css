@@ -2,6 +2,9 @@
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
 }
 
 .Column__Title {
@@ -10,4 +13,10 @@
 
 .Column__Item {
   padding: 8px;
+  flex-grow: 1;
+  min-height: 100px;
 }
+
+/* .test__1 {
+  border-style: dashed;
+} */

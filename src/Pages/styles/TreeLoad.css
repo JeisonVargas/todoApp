@@ -1,4 +1,23 @@
-.Box {
+/* .Box {
   border: solid 1px gray;
   width: 400px;
+} */
+
+.TreeLoad__Container {
+  display: flex;
 }
+
+
+.test__1 {
+  /* width: 100vw; */
+  /* background-color: orange; */
+  border-style: dashed;
+}
+
+/*
+{this.state.column === 'column-1' ? 'TreeLoad__Container test__1' : 'TreeLoad__Container'}
+const isDropDisabled = index === 0;
+
+
+
+*/

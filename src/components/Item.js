@@ -5,8 +5,14 @@ import './styles/Item.css';
 
 class Item extends React.Component {
   render() {
+    const isDragDisabled = false;
+    // const isDragDisabled = this.props.item.id === 'task-1';
     return (
-      <Draggable draggableId={this.props.item.id} index={this.props.index}>
+      <Draggable
+        draggableId={this.props.item.id}
+        index={this.props.index}
+        isDragDisabled={isDragDisabled}
+      >
         {(provided, snapshot) => (
           <div className={'Item__Container'}
             {...provided.draggableProps}
